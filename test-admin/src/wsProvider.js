@@ -10,7 +10,8 @@ if(response.error){
 reject(response);	
 }else{
 alert(response);
-resolve({data:[{id:1}],total:1});	
+//resolve({data:[{id:1,src:'a.jpg'}],total:1});	
+resolve(response);
 }
 }) 
 })
