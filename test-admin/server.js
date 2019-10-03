@@ -25,6 +25,11 @@ const User=sequelize.define('nusers',{ // nuser! Not user!
 		avatar:{
 		type:Sequelize.STRING	
 		}});
+		
+var fake_user_list=[
+{id:1,email:"a@ya.ru",first_name:"a",last_name:"b",avatar:"s.png"},
+{id:2,email:"b@ya.ru",fist_name:"b",last_name:"c",avatar:"c.png"},
+{id:3,email:"c@ya.ru",first_name:"c",last_name:"d",avatar:"d.jpg"}];
 	
 const app=express();
 app.use(express.static('./'));//default index.html , no template engine for the time being!
@@ -40,22 +45,19 @@ try{
 let body = await reqwest({url: API_URL, method:"get"});
 let dbody=JSON.parse(body);
 let d={};
-d.total=dbody.per_page;// чисто захардкожено, че там реакт админ требует , ожидает какие данные?
-d.data=dbody.data;
-//Users.destroy
-// Это чистая порнография, в реальной жизни такой цикл c DB навряд ли кто применяет. Но задание есть задание.
-// Я вообще в шоке
-/*
-d.data.forEach(function(el,i){
-console.log('el: ',el);
-Users.create({email: el.email, first_name: el.first_name, last_name: el.last_name, avatar: el.avatar}).then((data)=>{
-console.log('data:', data);	
-}).catch(err=>{console.log(err);})	
+//d.total=dbody.per_page;// чисто захардкожено, че там реакт админ требует , ожидает какие данные?
+//d.data=dbody.data;
+//d.data=[];
+// delete all users from nusers
+await User.destroy({truncate:true});
+let us=await User.bulkCreate(dbody.data, {returning: true});
+console.log("SRESULT: ", us[0].id);
+//d.total=us.length;
+d.data=us;
+d.total=us.length;
+us.forEach(function(el,i){
+//d.data.push({id:el.id,avatar:el.avatar});	
 })
-*/
-
-User.create({email: d.data[0].email}).then(d=>{console.log(d)}).catch(er=>{console.log(er);})
-
 fn(d);
 }catch(e){fn(e);}	
 })
@@ -67,7 +69,20 @@ console.log('websocket closed');
 sequelize.authenticate().then(()=>{
 console.log('connection has been established successfully.');
 User.sync({force: false}).then(()=>{
-User.destroy({truncate:true}).then(r=>{console.log('res: ',r);}).catch(e=>{console.log('ERROR: ',e);});
+	/*
+User.destroy({truncate:true}).then(r=>{
+console.log('res: ',r);//NaN
+
+User.bulkCreate(fake_user_list,{returning:true}).then((result)=>{
+console.log("RESULT: ", result[0].id);
+
+result.forEach(function(el,i){console.log("BRRRESULT: ", el.id," ", el.email)})	
+}).catch(e=>{console.log("er2: ",e);});
+}).catch(e=>{
+console.log('ERROR: ',e);
+});
+*/
+
 console.log('table created');// for a development mode is OK и для тестового задания тоже окей	
 })
 	

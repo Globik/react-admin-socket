@@ -9,7 +9,7 @@ socket.emit('remote-call', {action, collection, payload},(response)=>{
 if(response.error){
 reject(response);	
 }else{
-alert(response);
+alert(JSON.stringify(response));
 //resolve({data:[{id:1,src:'a.jpg'}],total:1});	
 resolve(response);
 }
