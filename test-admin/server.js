@@ -66,7 +66,8 @@ console.log('websocket closed');
 
 sequelize.authenticate().then(()=>{
 console.log('connection has been established successfully.');
-User.sync({force: true}).then(()=>{
+User.sync({force: false}).then(()=>{
+User.destroy({truncate:true}).then(r=>{console.log('res: ',r);}).catch(e=>{console.log('ERROR: ',e);});
 console.log('table created');// for a development mode is OK и для тестового задания тоже окей	
 })
 	
