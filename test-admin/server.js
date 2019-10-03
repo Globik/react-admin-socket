@@ -4,8 +4,9 @@ const http = require('http');
 const socketIO = require('socket.io');
 const reqwest = require('request-promise-native');
 const API_URL = "https://reqres.in/api/users?page=2";// hardcoded here,  надеюсь, я правильно понял задание
-const DB_URL = "postgress://globik:null@localhost:5432/test";
 // какое задание, такое и решение
+const DB_URL = "postgress://globik:null@localhost:5432/test";
+
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('test', 'globik', null, {dialect:'postgres',host:'localhost',pool:{max:5,min:0,acquire:30000,idle:10000}});
 const User=sequelize.define('nusers',{ // nuser! Not user! hardcoded
@@ -45,12 +46,11 @@ let d={};
 // delete all users from nusers
 await User.destroy({truncate:true});
 let us=await User.bulkCreate(dbody.data, {returning: true});
-console.log("SRESULT: ", us[0].id);
-//d.total=us.length;
+
 d.data=us;
 d.total=us.length;
 
-fn(d);
+fn(d);// socketio callback with data
 }catch(e){fn(e);}	
 })
 socket.on('disconnect', function(){
