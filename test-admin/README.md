@@ -1,3 +1,24 @@
+
+
+# Screenshot
+
+![alt text](http://gifok.net/images/2019/10/03/2019-10-03-103040_1366x768_scrot.png)
+
+
+
+# How to start the server
+
+``` node server ```
+
+Must to start on localhost:3001 
+
+# How to start the react project
+
+``` npm start ```
+
+Must to start on localhost:3000
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
