@@ -7,7 +7,7 @@ const API_URL = "https://reqres.in/api/users?page=2";// hardcoded here,  над�
 const DB_URL = "postgress://globik:null@localhost:5432/test";
 // какое задание, такое и решение
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('test', 'globik', null, {dialect:'postgres',host:'localhost'});
+const sequelize = new Sequelize('test', 'globik', null, {dialect:'postgres',host:'localhost',pool:{max:5,min:0,acquire:30000,idle:10000}});
 const User=sequelize.define('nusers',{ // nuser! Not user! hardcoded
 	id:{
 		type: Sequelize.INTEGER,
