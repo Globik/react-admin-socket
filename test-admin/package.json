@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "4.16.2",
     "react": "^16.10.1",
-    "react-admin": "^2.9.6",
+    "react-admin": "^3.19.12",
     "react-dom": "^16.10.1",
     "react-scripts": "3.1.2",
     "request-promise-native": "1.0.7",
